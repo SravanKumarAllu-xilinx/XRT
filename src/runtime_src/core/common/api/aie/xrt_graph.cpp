@@ -30,6 +30,7 @@ class graph_impl
 {
 private:
   std::shared_ptr<xrt_core::device> device;
+  xrt::hw_context hwCtx;
   xclGraphHandle handle;
 
 public:
@@ -37,6 +38,13 @@ public:
     : device(std::move(dev))
     , handle(ghdl)
   {}
+
+  graph_impl(const xrt::hw_context& hwctx, const std::string& name, graph::access_mode am)
+      : hwCtx(hwctx)
+  {
+    device = hwctx.get_device().get_handle();
+    handle = device->open_graph_hw_context(hwctx, name.c_str(), am);
+  }
 
   ~graph_impl()
   {
@@ -297,7 +305,10 @@ graph::
 graph(const xrt::device& device, const xrt::uuid& xclbin_id, const std::string& name, graph::access_mode am)
   : handle(open_graph(device, xclbin_id, name, am))
 {}
-
+graph::
+graph(const xrt::hw_context& hwctx, const std::string& name, graph::access_mode am)
+    : handle(std::make_shared<xrt::graph_impl>(hwctx, name, am))
+{}
 void
 graph::
 reset() const

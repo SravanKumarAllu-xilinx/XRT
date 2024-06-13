@@ -167,6 +167,8 @@ struct ishim
   virtual void
   set_cu_read_range(cuidx_type /*ip_index*/, uint32_t /*start*/, uint32_t /*size*/)
   { throw not_supported_error{__func__}; }
+
+
   ////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////
@@ -202,6 +204,10 @@ struct ishim
 #ifdef XRT_ENABLE_AIE
   virtual xclGraphHandle
   open_graph(const xrt::uuid&, const char*, xrt::graph::access_mode am) = 0;
+
+  virtual xclGraphHandle
+  open_graph_hw_context(const xrt::hw_context& hwctx, const char* name, xrt::graph::access_mode am)
+  { throw not_supported_error{__func__}; }
 
   virtual void
   close_graph(xclGraphHandle handle) = 0;

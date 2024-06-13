@@ -1130,6 +1130,13 @@ set_cu_read_range(cuidx_type cuidx, uint32_t start, uint32_t size)
     throw xrt_core::error(ret, "failed to set cu read range");
 }
 
+xclGraphHandle
+device_linux::
+open_graph_hw_context(const xrt::hw_context& hwctx, const char* name, xrt::graph::access_mode am)
+{
+   return xclGraphOpen(get_device_handle(), hwctx.get_xclbin_uuid().get(), name, am);
+}
+
 std::unique_ptr<buffer_handle>
 device_linux::
 import_bo(pid_t pid, shared_handle::export_handle ehdl)

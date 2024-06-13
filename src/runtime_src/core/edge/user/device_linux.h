@@ -35,6 +35,9 @@ public:
   void
   set_cu_read_range(cuidx_type ip_index, uint32_t start, uint32_t size) override;
 
+  xclGraphHandle
+  open_graph_hw_context(const xrt::hw_context& hwctx, const char* name, xrt::graph::access_mode am) override;
+
   void
   get_device_info(xclDeviceInfo2 *info) override;
 

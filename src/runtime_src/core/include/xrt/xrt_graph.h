@@ -28,6 +28,7 @@
 # include <chrono>
 # include <string>
 # include <cstdint>
+# include "experimental/xrt_hw_context.h"
 #endif
 
 typedef void *xrtGraphHandle;
@@ -65,6 +66,10 @@ public:
    * By default a graph is opened in primary access mode.
    */
   enum class access_mode : uint8_t { exclusive = 0, primary = 1, shared = 2 };
+
+
+  graph(const xrt::hw_context& ctx, const std::string& name,
+        access_mode am = access_mode::primary);
 
   /**
    * graph() - Constructor from a device, xclbin and graph name
