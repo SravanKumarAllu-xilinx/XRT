@@ -1991,6 +1991,13 @@ registerAieArray()
   aied = std::make_unique<zynqaie::aied>(mCoreDevice.get());
 }
 
+void
+shim::
+reset_aie_array()
+{
+  m_aie_array.reset();
+}
+
 bool
 shim::
 isAieRegistered()

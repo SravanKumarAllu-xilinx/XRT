@@ -418,6 +418,8 @@ reset(const xrt_core::device* device, uint32_t hw_context_id, uint32_t partition
   int ret = drv->resetAIEArray(reset);
   if (ret)
     throw xrt_core::error(ret, "Fail to reset AIE Array");
+  
+  drv->reset_aie_array();
 }
 
 int
