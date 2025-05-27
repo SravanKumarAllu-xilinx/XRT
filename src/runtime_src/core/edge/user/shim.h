@@ -4,7 +4,7 @@
 #ifndef _ZYNQ_SHIM_H_
 #define _ZYNQ_SHIM_H_
 
-#include "zynq_dev.h"
+
 #include "hwctx_object.h"
 
 #include "core/edge/include/xclhal2_mpsoc.h"
@@ -27,11 +27,19 @@
 #include <vector>
 #include <mutex>
 #include <memory>
+#include <string>
 
 #ifdef XRT_ENABLE_AIE
 #include "core/edge/user/aie/aie.h"
 #include "core/edge/user/aie/aied.h"
 #endif
+
+
+
+namespace xrt_core::edge {
+
+class dev_zocl;
+}
 
 namespace ZYNQ {
 
@@ -219,7 +227,7 @@ public:
   }; // buffer_object
 
   ~shim();
-  shim(unsigned index);
+  shim(unsigned index, std::shared_ptr<xrt_core::edge::dev_zocl> edev_zocl);
 
   int mapKernelControl(const std::vector<std::pair<uint64_t, size_t>>& offsets);
   void *getVirtAddressOfApture(xclAddressSpace space, const uint64_t phy_addr, uint64_t& offset);
@@ -370,7 +378,7 @@ private:
   int mKernelFD;
   static std::map<uint64_t, uint32_t *> mKernelControl;
   std::unique_ptr<xrt_core::bo_cache> mCmdBOCache;
-  zynq_device *mDev = nullptr;
+  std::shared_ptr<xrt_core::edge::dev_zocl> mDev = nullptr;
   size_t mKernelClockFreq;
   bool hw_context_enable = false;
 
